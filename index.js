@@ -1,4 +1,4 @@
-api_url = "http://176.160.247.132";
+api_url = "https://176.160.247.132";
 const routes = {
   init: api_url + "/fight/init",
   next: api_url + "/fight/next",
