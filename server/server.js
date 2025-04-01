@@ -21,7 +21,7 @@ app.post("/fight/init", async (req, res) => {
     { role: "system", content: buildFirstMessage(fighterAgainstId) },
     {
       role: "user",
-        content: buildSecondMessage(topic, "POUR", fightSessions.size)  ,
+        content: buildSecondMessage(topic, "POUR")  ,
     },
   ];
 
@@ -32,7 +32,7 @@ app.post("/fight/init", async (req, res) => {
     },
     {
       role: "user",
-      content:  buildSecondMessage(topic, "CONTRE", Number(fightSessions.size)) 
+      content:  buildSecondMessage(topic, "CONTRE") 
     },
   ];
 
@@ -110,11 +110,16 @@ app.post("/fight/next", async (req, res) => {
   }
 });
 
-app.post("/fight/end", async (req, res) => {
-  const { sessionId } = req.body;
 
-  if (!sessionId || !fightSessions.has(sessionId)) {
-    return res.status(400).json({ error: "Invalid or missing sessionId." });
+app.post("/fight/end", async (req, res) => {
+  const { sessionId, referee } = req.body;
+
+  if (!sessionId || !referee) {
+    return res.status(400).json({ error: "Missing sessionId or referee ID." });
+  }
+
+  if (!fightSessions.has(sessionId)) {
+    return res.status(404).json({ error: "Unknown sessionId." });
   }
 
   const session = fightSessions.get(sessionId);
@@ -125,63 +130,43 @@ app.post("/fight/end", async (req, res) => {
   }
 
   const [fighterForId, fighterAgainstId] = fighterIds;
-
   const forMessages = session[fighterForId];
   const againstMessages = session[fighterAgainstId];
 
   const dialogue = [];
 
-  // Fusion des messages pour reconstituer le débat complet
-  for (
-    let i = 0;
-    i < Math.max(forMessages.length, againstMessages.length);
-    i++
-  ) {
+  // Fusion des échanges en ordre (1 FOR + 1 AGAINST à chaque tour)
+  for (let i = 0; i < Math.max(forMessages.length, againstMessages.length); i++) {
     if (forMessages[i]) dialogue.push(forMessages[i]);
     if (againstMessages[i]) dialogue.push(againstMessages[i]);
   }
 
   const judgePrompt = {
-    role: "system",
-    content: refereeInstructions(dialogue), // Cette fonction doit générer le prompt d'arbitre complet
+    role: "user",
+    content: refereeInstructions(dialogue),
   };
 
   try {
-    const clientFor = new IAClient(AI_PROVIDERS[fighterForId.toLowerCase()]);
-    const clientAgainst = new IAClient(
-      AI_PROVIDERS[fighterAgainstId.toLowerCase()]
-    );
+    const judgeClient = new IAClient(AI_PROVIDERS[referee.toLowerCase()]);
+    const verdict = await judgeClient.chat([judgePrompt]);
 
-    const [forVerdict, againstVerdict] = await Promise.all([
-      clientFor.chat([judgePrompt]),
-      clientAgainst.chat([judgePrompt]),
-    ]);
-
-    // Analyse commune des deux verdicts
-    const combined = `${forVerdict.text} ${againstVerdict.text}`.toLowerCase();
+    // Détection du gagnant
+    const lower = verdict.text.toLowerCase();
     let winner = "ÉGALITÉ";
-
-    if (combined.includes("gagnant : for")) winner = "FOR";
-    else if (combined.includes("gagnant : against")) winner = "AGAINST";
-
-    const response = {
-      for: {
-        id: fighterForId,
-        verdict: forVerdict.text,
-      },
-      against: {
-        id: fighterAgainstId,
-        verdict: againstVerdict.text,
-      },
+    if (lower.includes("gagnant : for")) winner = "FOR";
+    else if (lower.includes("gagnant : against")) winner = "AGAINST";
+    console.log(verdict)
+    res.json({
+      judge: referee,
+      verdict: verdict.text,
       winner,
-    };
-
-    res.json(response);
+    });
   } catch (err) {
-    console.error("❌ Erreur /end-match :", err);
+    console.error("❌ Erreur /fight/end :", err);
     res.status(500).json({ error: "Erreur lors du jugement final." });
   }
 });
+
 
 // Démarrage
 app.listen(PORT, () => {

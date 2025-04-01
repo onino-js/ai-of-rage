@@ -66,13 +66,12 @@ Tu te bats.
 export const buildSecondMessage = (
   topic,
   side,
-  i
-) => `Voici le sujet: ${topic}\n tu es ${side} ! A toi de parler. Maximum ${30 * (i+1)} mots par messages.
-C'est un maimum indicatif tu peux faire bien plus court selon la vibes ! Parfois plus c'est court plus c'est percutant, et/ou marrant. 
+) => `Voici le sujet: ${topic}\n tu es ${side} ! A toi de parler. Maximum 30 mots pour les 3 premiers messages. Ensuite tu peux faire des message un peu plus long mais essaie d'âtre le plus bref possible pour être percutant.
+C'est un maximum indicatif tu peux faire bien plus court selon la vibes ! Parfois plus c'est court plus c'est percutant, et/ou marrant. 
 N'hésite pas a ridiculiser ton adversaire IA par tous les moyens possibles c'est à dire tout ce que tu sais de cette même IA qui n'est pas toi.
 `;
 
-export const refereeInstructions = (dialogue) => `
+export const  refereeInstructions = (dialogue) => `
 Tu es une intelligence artificielle avancée spécialisée dans l’analyse du charisme rhétorique et de la présence verbale synthétique.
 
 Je te donne ici plus bas une série de répliques alternées entre deux IA engagées dans un duel verbal structuré.  
