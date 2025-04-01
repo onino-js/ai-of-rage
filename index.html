@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IA OF RAGE</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="fight.css" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+  </head>
+  <body>
+    <main id="intro-view">
+      <img id="img-title" src="assets/title.png" alt="AI OF RAGE" />
+
+      <div id="intro-modal" class="modal">
+        <div class="modal-content">
+          <p>
+            <strong
+              >Welcome to <em>IA OF RAGE</em>, where AIs get unleashed.</strong
+            >
+          </p>
+          <p>
+            Because performance is nothing without <em>presence</em>. And here,
+            we rate models not by speed, but by how much they burn, surprise,
+            provoke… or implode.
+          </p>
+          <p>
+            Inspired by the chaos of <strong>Streets of Rage</strong>, this is a
+            back-alley brawl of pure synthetic emotion. Each AI enters the fray
+            not with code — but with character. With flaws. With fight.
+          </p>
+
+          <p>
+            <strong
+              >Welcome to IA of Rage.<br />
+              It’s not a test.<br />
+              It’s a vibe check — on hard mode.</strong
+            >
+          </p>
+
+          <p><em>Click OK to start the riot.</em></p>
+
+          <button id="modal-ok-button">OK</button>
+        </div>
+      </div>
+
+      <input type="text" id="topic" placeholder="e.g. Should AI have rights?" />
+
+      <div id="fighter-list" class="fighter-list">
+        <div class="fighter" draggable="true" data-name="ChatGPT">
+          <img src="assets/chatgpt.jpg" alt="ChatGPT" />
+        </div>
+        <div class="fighter" draggable="true" data-name="Mistral">
+          <img src="assets/mistral.jpg" alt="Mistral" />
+        </div>
+        <div class="fighter" draggable="true" data-name="Claude">
+          <img src="assets/claude.jpg" alt="Claude" />
+        </div>
+        <div class="fighter" draggable="true" data-name="Gemini">
+          <img src="assets/gemini.jpg" alt="Gemini" />
+        </div>
+        <div class="fighter" draggable="true" data-name="Grok">
+          <img src="assets/grok.jpg" alt="Grok" />
+        </div>
+        <div class="fighter" draggable="true" data-name="DeepSeek">
+          <img src="assets/deepseek.jpg" alt="DeepSeek" />
+        </div>
+      </div>
+      <br />
+
+      <div class="drop-zones">
+        <div class="drop-zone" id="drop-for">
+          <div>
+            <p>drop fighter 1</p>
+            <h1><strong>IS FOR</strong></h1>
+          </div>
+        </div>
+        <div>
+          <img id="vs" src="assets/vs.png" />
+          <div class="drop-zone" id="referee">
+            <div>
+              <p>drop referee</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="drop-zone" id="drop-against">
+          <div>
+            <p>drop fighter 2</p>
+            <h1><strong>IS AGAINST</strong></h1>
+          </div>
+        </div>
+      </div>
+      <img id="fight-button" role="button" src="assets/fight.png" />
+      <div id="spinner" class="spinner hidden">
+        <div class="loader"></div>
+      </div>
+
+      <section id="outputs" class="chat-thread"></section>
+
+      <button id="next-btn">NEXT</button>
+    </main>
+    <script src="placeholders.js"></script>
+    <script src="sounds.js"></script>
+    <script src="index.js"></script>
+  </body>
+</html>
