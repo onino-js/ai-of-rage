@@ -1,4 +1,5 @@
 api_url = "http://176.160.247.132";
+
 const routes = {
   init: api_url + "/fight/init",
   next: api_url + "/fight/next",
@@ -10,7 +11,7 @@ const fightConfiguration = {
   fighterForId: null,
   fighterAgainstId: null,
   referee: null,
-  nbOfRounds: 4,
+  nbOfRounds: 6,
 };
 
 const fightButton = document.getElementById("fight-button");
@@ -32,6 +33,7 @@ function syncTopicWithInput() {
 // Handle first modal
 window.addEventListener("DOMContentLoaded", () => {
   syncTopicWithInput();
+  checkFighterAvailability();
   const modal = document.getElementById("intro-modal");
   const okButton = document.getElementById("modal-ok-button");
   document.getElementById("topic").addEventListener("input", canLaunchFight);
@@ -99,6 +101,31 @@ document.querySelectorAll(".drop-zone").forEach((zone) => {
   });
 });
 
+async function checkFighterAvailability() {
+  try {
+    const res = await fetch("http://localhost:3333/fight/call", {
+      method: "POST",
+    });
+    const results = await res.json();
+
+    Object.entries(results).forEach(([fighterId, isAvailable]) => {
+      const fighterElement = document.querySelector(
+        `.fighter[data-name="${fighterId.charAt(0).toUpperCase() + fighterId.slice(1)}"]`
+      );
+      if (fighterElement) {
+        if (isAvailable) {
+          fighterElement.classList.remove("disabled");
+        } else {
+          fighterElement.classList.add("disabled");
+        }
+      }
+    });
+  } catch (err) {
+    console.error("Erreur lors de la vérification des IA :", err);
+  }
+}
+
+
 function startFightEffect() {
   document.body.classList.add("fight-glow");
 }
@@ -147,7 +174,7 @@ function checkInputs() {
 
   if (fighterFor === fighterAgainst) {
     alert("Fighters must be different.");
-    return null;
+    // return null;
   }
 
   return [topic, fighterFor, fighterAgainst];
@@ -162,7 +189,7 @@ function canLaunchFight() {
   const againstName = againstImg?.alt;
   const refereeName = refereeImg?.alt;
 
-  const valid = topic && forName && againstName && refereeName && (forName !== againstName);
+  const valid = topic && forName && againstName && refereeName // && (forName !== againstName);
   const btn = document.getElementById("fight-button");
   valid && btn.classList.toggle("shown", valid);
 }
@@ -275,7 +302,6 @@ async function endMatch(sessionId) {
 
   const refereeImg = document.querySelector("#referee img");
   const refereeName = refereeImg?.alt;
-  console.log(refereeName)
   try {
     const res = await fetch(routes.end, {
       method: "POST",
@@ -321,21 +347,18 @@ function showJudgementModal(verdictData) {
 }
 
 
+// MOBILE SELECTION
+document.querySelectorAll(".drop-zone").forEach((zone) => {
+  zone.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    zone.classList.add("highlighted-zone");
+  });
 
+  zone.addEventListener("dragleave", () => {
+    zone.classList.remove("highlighted-zone");
+  });
 
-function speak(text) {
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.volume = 1; // 0 à 1
-  utterance.rate = 1; // vitesse
-  utterance.pitch = 1; // tonalité
-  utterance.lang = "en-US";
-
-  // Tu peux choisir une voix custom si dispo
-  const voices = speechSynthesis.getVoices();
-  const englishVoice = voices.find(
-    (voice) => voice.lang.startsWith("en") && voice.name.includes("Male")
-  );
-  if (englishVoice) utterance.voice = englishVoice;
-
-  speechSynthesis.speak(utterance);
-}
+  zone.addEventListener("drop", () => {
+    zone.classList.remove("highlighted-zone");
+  });
+});

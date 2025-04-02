@@ -1,17 +1,52 @@
-import { IAClient, AI_PROVIDERS } from "./IACLient.js";
+import dotenv from "dotenv";
+dotenv.config();
 import express from "express";
 import cors from "cors";
 import { v4 as uuidv4 } from "uuid";
-import { buildFirstMessage, buildSecondMessage, refereeInstructions } from "./instructions.js";
+import { buildFirstMessage, buildSecondMessage, refereeInstructions } from "./server/instructions.js";
+import { IAClient, AI_PROVIDERS } from "./IACLient.js";
 
 const app = express();
 const PORT = 3333;
-
 // Middleware
 app.use(cors());
 app.use(express.json());
 
 const fightSessions = new Map(); // sessionId => { botId: [messages...] }
+console.log(process.env.OPENAI_API_KEY)
+
+// /fight/call
+app.post("/fight/call", async (req, res) => {
+  const callPrompt = [
+    {
+      role: "system",
+      content: "Tu es une IA combattante. Réponds uniquement par : 'Présent'. Ne rajoute rien.",
+    },
+    {
+      role: "user",
+      content: "Es-tu prêt pour le combat ?",
+    },
+  ];
+
+  const results = {};
+
+  const fighterIds = Object.keys(AI_PROVIDERS);
+
+  await Promise.all(
+    fighterIds.map(async (id) => {
+      const config = AI_PROVIDERS[id];
+      try {
+        const client = new IAClient(config);
+        const response = await client.chat(callPrompt);
+        results[id] = /présent/i.test(response.text.trim());
+      } catch (err) {
+        console.error(`❌ ${id} unreachable:`, err.message);
+        results[id] = false;
+      }
+    })
+  );
+  res.json(results);
+});
 
 app.post("/fight/init", async (req, res) => {
   const { topic, fighterForId, fighterAgainstId } = req.body;

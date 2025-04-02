@@ -66,7 +66,7 @@ Tu te bats.
 export const buildSecondMessage = (
   topic,
   side,
-) => `Voici le sujet: ${topic}\n tu es ${side} ! A toi de parler. Maximum 30 mots pour les 3 premiers messages. Ensuite tu peux faire des message un peu plus long mais essaie d'âtre le plus bref possible pour être percutant.
+) => `Voici le sujet: ${topic}\n tu es ${side} ! A toi de parler. Maximum 30 mots pour le 1 premier message. Ensuite tu peux faire des message un peu plus longs.
 C'est un maximum indicatif tu peux faire bien plus court selon la vibes ! Parfois plus c'est court plus c'est percutant, et/ou marrant. 
 N'hésite pas a ridiculiser ton adversaire IA par tous les moyens possibles c'est à dire tout ce que tu sais de cette même IA qui n'est pas toi.
 `;
@@ -113,6 +113,6 @@ Voici le dialogue que tu dois juger :
 ${JSON.stringify(dialogue)}
 ============END================
 
-Donne nous ton verdict avec maximum 800 mots
+Donne nous ton verdict avec maximum 300 mots
 
 `;

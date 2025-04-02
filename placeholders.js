@@ -11,8 +11,8 @@ const placeholders = [
   "La protection médicale obligatoire",
   "Claude est un nom de merde pour un IA",
   "La pluie",
-  "Les blancs à l'arrière du bus",
-  "Les noirs à l'avant du bus",
+  "Les blancs au millieu du bus",
+  "séparer les hommes et les femmes"
 ];
 
 let placeholderInterval = null;
