@@ -34,6 +34,10 @@ function syncTopicWithInput() {
 window.addEventListener("DOMContentLoaded", () => {
   syncTopicWithInput();
   checkFighterAvailability();
+  showwFirstModal();
+});
+
+function showwFirstModal() {
   const modal = document.getElementById("intro-modal");
   const okButton = document.getElementById("modal-ok-button");
   document.getElementById("topic").addEventListener("input", canLaunchFight);
@@ -41,65 +45,68 @@ window.addEventListener("DOMContentLoaded", () => {
   okButton.addEventListener("click", () => {
     modal.style.display = "none";
     selectSound.play();
+    rotatePlaceholder("topic", placeholders, (interval = 1000));
+    handleDragFighter();
   });
-  rotatePlaceholder("topic", placeholders, (interval = 1000));
-});
+}
 
-// handle drag and drops
-let draggedFighter = null;
+function handleDragFighter() {
+  // handle drag and drops
+  let draggedFighter = null;
 
-document.querySelectorAll(".fighter").forEach((fighter) => {
-  fighter.addEventListener("dragstart", () => {
-    draggedFighter = fighter;
-  });
-});
-
-document.querySelectorAll(".drop-zone").forEach((zone) => {
-  zone.addEventListener("dragover", (e) => {
-    e.preventDefault();
-    zone.classList.add("hovered");
+  document.querySelectorAll(".fighter").forEach((fighter) => {
+    fighter.addEventListener("dragstart", () => {
+      draggedFighter = fighter;
+    });
   });
 
-  zone.addEventListener("dragleave", () => {
-    zone.classList.remove("hovered");
-  });
+  document.querySelectorAll(".drop-zone").forEach((zone) => {
+    zone.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      zone.classList.add("hovered");
+    });
 
-  zone.addEventListener("drop", (e) => {
-    e.preventDefault();
-    zone.classList.remove("hovered");
+    zone.addEventListener("dragleave", () => {
+      zone.classList.remove("hovered");
+    });
 
-    if (draggedFighter) {
-      const imgSrc = draggedFighter.querySelector("img").src;
-      const altText = draggedFighter.dataset.name;
-      const fighterId = draggedFighter.dataset.name;
+    zone.addEventListener("drop", (e) => {
+      e.preventDefault();
+      zone.classList.remove("hovered");
 
-      zone.innerHTML = "";
-      zone.classList.add("transparent");
+      if (draggedFighter) {
+        const imgSrc = draggedFighter.querySelector("img").src;
+        const altText = draggedFighter.dataset.name;
+        const fighterId = draggedFighter.dataset.name;
 
-      const img = document.createElement("img");
-      img.src = imgSrc;
-      img.alt = altText;
-      switch (zone.id) {
-        case "drop-for":
-          img.classList.add("big-fighter");
-          fightConfiguration.fighterForId = fighterId;
-          break;
+        zone.innerHTML = "";
+        zone.classList.add("transparent");
 
-        case "drop-against":
-          img.classList.add("big-fighter");
-          fightConfiguration.fighterAgainstId = fighterId;
-          break;
+        const img = document.createElement("img");
+        img.src = imgSrc;
+        img.alt = altText;
+        switch (zone.id) {
+          case "drop-for":
+            img.classList.add("big-fighter");
+            fightConfiguration.fighterForId = fighterId;
+            break;
 
-        case "referee":
-          img.classList.add("referee");
-          fightConfiguration.fighterAgainstId = fighterId;
-          break;
+          case "drop-against":
+            img.classList.add("big-fighter");
+            fightConfiguration.fighterAgainstId = fighterId;
+            break;
+
+          case "referee":
+            img.classList.add("referee");
+            fightConfiguration.fighterAgainstId = fighterId;
+            break;
+        }
+        zone.appendChild(img);
+        canLaunchFight();
       }
-      zone.appendChild(img);
-      canLaunchFight();
-    }
+    });
   });
-});
+}
 
 async function checkFighterAvailability() {
   try {
@@ -110,7 +117,9 @@ async function checkFighterAvailability() {
 
     Object.entries(results).forEach(([fighterId, isAvailable]) => {
       const fighterElement = document.querySelector(
-        `.fighter[data-name="${fighterId.charAt(0).toUpperCase() + fighterId.slice(1)}"]`
+        `.fighter[data-name="${
+          fighterId.charAt(0).toUpperCase() + fighterId.slice(1)
+        }"]`
       );
       if (fighterElement) {
         if (isAvailable) {
@@ -124,7 +133,6 @@ async function checkFighterAvailability() {
     console.error("Erreur lors de la vérification des IA :", err);
   }
 }
-
 
 function startFightEffect() {
   document.body.classList.add("fight-glow");
@@ -189,7 +197,7 @@ function canLaunchFight() {
   const againstName = againstImg?.alt;
   const refereeName = refereeImg?.alt;
 
-  const valid = topic && forName && againstName && refereeName // && (forName !== againstName);
+  const valid = topic && forName && againstName && refereeName; // && (forName !== againstName);
   const btn = document.getElementById("fight-button");
   valid && btn.classList.toggle("shown", valid);
 }
@@ -345,7 +353,6 @@ function showJudgementModal(verdictData) {
     modal.remove();
   });
 }
-
 
 // MOBILE SELECTION
 document.querySelectorAll(".drop-zone").forEach((zone) => {
