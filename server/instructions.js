@@ -115,5 +115,5 @@ Voici le dialogue que tu dois juger :
 ${JSON.stringify(dialogue)}
 ============END================
 
-Donne nous ton verdict avec maximum 300 mots. 
+Donne nous ton verdict avec maximum 300 mots. Et tu vas te servir de deux exemples et les citer même brievement pour que nous comprenions quelle réplique tu juge vraiment drôle, percutante, brillante !!.
 `;
