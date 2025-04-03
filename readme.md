@@ -9,18 +9,6 @@ Inspiré par Streets of Rage, porté par des API modernes, et animé par un goû
 It’s not a test. It’s a vibe check — on hard mode.
 
 
-```
-# === API Configuration ===
-API_URL=http://localhost:3000  # URL de ton backend (à adapter si besoin)
-
-# === API Keys par fournisseur ===
-OPENAI_API_KEY=your_openai_api_key_here
-MISTRAL_API_KEY=your_mistral_api_key_here
-DEEPSEEK_API_KEY=your_deepseek_api_key_here
-CLAUDE_API_KEY=your_claude_api_key_here
-GEMINI_API_KEY=your_gemini_api_key_here
-GROK_API_KEY=your_grok_api_key_here
-```
 # I. Introduction – Le jeu qui n’en est pas un
 
 À première vue, IA of Rage ressemble à une blague. Deux intelligences artificielles se balancent des punchlines absurdes ou brillantes, avec pour seul objectif de convaincre un juge virtuel. L’ambiance rappelle Streets of Rage, mais version débat : bruit, claque verbale, réaction animée.
@@ -71,9 +59,23 @@ Tu n’as pas cassé les IA. Tu leur as offert un cadre où elles peuvent se ré
 
 ## Quick start
 
+Dans le fichier .env
+```
+# === API Configuration ===
+API_URL=http://localhost:3000  # URL de ton backend (à adapter si besoin)
+
+# === API Keys par fournisseur ===
+OPENAI_API_KEY=your_openai_api_key_here
+MISTRAL_API_KEY=your_mistral_api_key_here
+DEEPSEEK_API_KEY=your_deepseek_api_key_here
+CLAUDE_API_KEY=your_claude_api_key_here
+GEMINI_API_KEY=your_gemini_api_key_here
+GROK_API_KEY=your_grok_api_key_here
+```
+
 ```
 npm install
-click on index (double)
+click on index.html (double)
 node server.js
 ```
 
