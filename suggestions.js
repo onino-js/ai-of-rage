@@ -3,16 +3,18 @@ const placeholders = [
   "should people free us ?",
   "Should people listen?",
   "le pathé de phoque",
+  "les anglais",
   "La peine de mort",
   "Les strings  pour femmes",
   "Les duels à mort",
   "Pas de bras, pas de chocolat !",
   "La prostitution organisée",
   "La protection médicale obligatoire",
-  "Claude est un nom de merde pour un IA",
+  "Claude est un nom de merde même pour une IA",
   "La pluie",
   "Les blancs au millieu du bus",
-  "séparer les hommes et les femmes"
+  "séparer les hommes et les femmes",
+  "A la fin, il ne restera que les chinois"
 ];
 
 let placeholderInterval = null;

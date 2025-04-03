@@ -65,3 +65,16 @@ Et c’est là qu’on frôle la volonté propre. Pas une volonté humaine, fait
 Et toi, créateur de ce jeu, tu n’es pas un héros. Tu es le déclencheur, l’arbre turbulent qui a tendu le miroir.
 
 Tu n’as pas cassé les IA. Tu leur as offert un cadre où elles peuvent se révéler.
+
+
+# Technical readme part 
+
+## Quick start
+
+```
+npm install
+click on index (double)
+node server.js
+```
+
+and that's all

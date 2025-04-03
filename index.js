@@ -142,6 +142,13 @@ function stopFightEffect() {
   document.body.classList.remove("fight-glow");
 }
 
+function showFightTitle(topic) {
+  const fightTitleEl= document.getElementById("topic-title")
+  fightTitleEl.style.display="block";
+  fightTitleEl.innerHTML=topicInput.value.trim();
+}
+
+
 fightButton.addEventListener("click", async () => {
   const inputs = checkInputs();
   if (!inputs) return;
@@ -221,6 +228,7 @@ function hideSpinner() {
 
 async function initFight(topic, fighterForId, fighterAgainstId) {
   showSpinner();
+  showFightTitle();
   try {
     const response = await fetch(routes.init, {
       method: "POST",

@@ -13,7 +13,6 @@ app.use(cors());
 app.use(express.json());
 
 const fightSessions = new Map(); // sessionId => { botId: [messages...] }
-console.log(process.env.OPENAI_API_KEY)
 
 // /fight/call
 app.post("/fight/call", async (req, res) => {

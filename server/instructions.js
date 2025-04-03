@@ -107,12 +107,13 @@ Enfin, rends ton verdict sous la forme suivante :
 
 Tu es l’arbitre final dans l’arène. Juge avec clarté, hauteur, et panache.
 
+!! important: Ne remet pas la conversation en entière dans ta réponse (hein Grok ...)
+
 Voici le dialogue que tu dois juger :
 
 ============START==============
 ${JSON.stringify(dialogue)}
 ============END================
 
-Donne nous ton verdict avec maximum 300 mots
-
+Donne nous ton verdict avec maximum 300 mots. 
 `;
