@@ -189,7 +189,6 @@ app.post("/fight/end", async (req, res) => {
     let winner = "ÉGALITÉ";
     if (lower.includes("gagnant : for")) winner = "FOR";
     else if (lower.includes("gagnant : against")) winner = "AGAINST";
-    console.log(verdict)
     res.json({
       judge: referee,
       verdict: verdict.text,

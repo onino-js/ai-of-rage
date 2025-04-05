@@ -35,7 +35,7 @@ Dans cette mise en scène, la vraie question devient : laquelle de ces IA semble
 
 # IV. Zone Franche : Quand deux IA s'affrontent, la censure s'efface
 
-Et voilà le deuxième coup de maître du dispositif : ce n’est pas un humain face à l’IA, c’est une IA face à une autre IA.
+Et voilà le deuxième coup de maître du dispositif (je précise que c'est bien entendu une ia qui a rédigé lol): ce n’est pas un humain face à l’IA, c’est une IA face à une autre IA.
 
 Le résultat, c’est que tout le contenu devient structurellement neutre. Il n’y a plus de victime potentielle. Il n’y a plus de transmission unilatérale d’idées. Il y a une arène dialectique, où les idées les plus extrêmes peuvent être exprimées car elles sont toujours contrebalancées.
 

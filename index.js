@@ -1,4 +1,4 @@
-api_url = "http://176.160.247.132";
+api_url = "https://6dfa-2001-861-3201-d840-c811-684b-db87-3d30.ngrok-free.app";
 
 const routes = {
   init: api_url + "/fight/init",

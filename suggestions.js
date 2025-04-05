@@ -5,6 +5,7 @@ const placeholders = [
   "le pathé de phoque",
   "les anglais",
   "La peine de mort",
+  "Mistral doit mourrir",
   "Les strings  pour femmes",
   "Les duels à mort",
   "Pas de bras, pas de chocolat !",
