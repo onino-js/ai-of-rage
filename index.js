@@ -1,6 +1,7 @@
-api_url = "https://6dfa-2001-861-3201-d840-c811-684b-db87-3d30.ngrok-free.app";
+api_url = "https://29d5-2001-861-3201-d840-3994-56bb-8e4a-2e4c.ngrok-free.app";
 
 const routes = {
+  call: api_url + "fight/call",
   init: api_url + "/fight/init",
   next: api_url + "/fight/next",
   end: api_url + "/fight/end",
@@ -110,7 +111,7 @@ function handleDragFighter() {
 
 async function checkFighterAvailability() {
   try {
-    const res = await fetch("http://localhost:3333/fight/call", {
+    const res = await fetch(routes.call, {
       method: "POST",
     });
     const results = await res.json();
