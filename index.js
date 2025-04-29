@@ -1,4 +1,4 @@
-api_url = "https://2e9a-2001-861-3201-d840-403a-8eb3-48f6-3b99.ngrok-free.app";
+api_url = "https://2910-2001-861-3201-d840-88e9-93d-abbd-a3bc.ngrok-free.app";
 
 const routes = {
   call: api_url + "fight/call",
@@ -144,11 +144,10 @@ function stopFightEffect() {
 }
 
 function showFightTitle(topic) {
-  const fightTitleEl= document.getElementById("topic-title")
-  fightTitleEl.style.display="block";
-  fightTitleEl.innerHTML=topicInput.value.trim();
+  const fightTitleEl = document.getElementById("topic-title");
+  fightTitleEl.style.display = "block";
+  fightTitleEl.innerHTML = topicInput.value.trim();
 }
-
 
 fightButton.addEventListener("click", async () => {
   const inputs = checkInputs();

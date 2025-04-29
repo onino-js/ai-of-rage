@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Animation musicale avec Three.js</title>
+    <style>
+      body {
+        margin: 0;
+        background-color: #000;
+        overflow: hidden;
+      }
+      #canvas {
+        width: 100%;
+        height: 100vh;
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+      // Configuration de la scène
+      // Configuration de la scène
+      let scene = new THREE.Scene();
+      let camera = new THREE.PerspectiveCamera(
+        75,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000
+      );
+      let renderer = new THREE.WebGLRenderer({
+        canvas: document.getElementById("canvas"),
+        antialias: true,
+      });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+
+      // Création des sphères
+      let spheres = [];
+      for (let i = 0; i < 100; i++) {
+        let geometry = new THREE.SphereGeometry(
+          Math.random() * 0.5 + 0.1,
+          32,
+          32
+        );
+        let material = new THREE.MeshBasicMaterial({
+          color: new THREE.Color(Math.random(), Math.random(), Math.random()),
+        });
+        let sphere = new THREE.Mesh(geometry, material);
+        sphere.position.x = Math.random() * 10 - 5;
+        sphere.position.y = Math.random() * 10 - 5;
+        sphere.position.z = Math.random() * 10 - 5;
+        scene.add(sphere);
+        spheres.push(sphere);
+      }
+
+      // Chargement de la musique
+      let audio = new Audio("assets/select.mp3");
+      audio.crossOrigin = "anonymous";
+      let audioContext = new AudioContext();
+      let analyser = audioContext.createAnalyser();
+      let source = audioContext.createMediaElementSource(audio);
+      source.connect(analyser);
+      analyser.connect(audioContext.destination);
+      let frequencyData = new Uint8Array(analyser.frequencyBinCount);
+
+      // Fonctions de traitement des fréquences
+      function getBassFrequency(frequencyData) {
+        let bassFrequency = 0;
+        for (let i = 0; i < frequencyData.length / 4; i++) {
+          bassFrequency += frequencyData[i];
+        }
+        return bassFrequency / (frequencyData.length / 4);
+      }
+
+      function getMidFrequency(frequencyData) {
+        let midFrequency = 0;
+        for (
+          let i = frequencyData.length / 4;
+          i < frequencyData.length / 2;
+          i++
+        ) {
+          midFrequency += frequencyData[i];
+        }
+        return midFrequency / (frequencyData.length / 4);
+      }
+
+      function getHighFrequency(frequencyData) {
+        let highFrequency = 0;
+        for (let i = frequencyData.length / 2; i < frequencyData.length; i++) {
+          highFrequency += frequencyData[i];
+        }
+        return highFrequency / (frequencyData.length / 2);
+      }
+
+      // Fonctions d'animation
+      function animateBass(spheres, bassFrequency) {
+        spheres.forEach((sphere) => {
+          sphere.scale.x =
+            sphere.scale.y =
+            sphere.scale.z =
+              bassFrequency / 128 + 0.5;
+        });
+      }
+
+      function animateMid(spheres, midFrequency) {
+        // À implémenter
+      }
+
+      function animateHigh(spheres, highFrequency) {
+        // À implémenter
+      }
+
+      function animateColor(spheres, frequencyData) {
+        spheres.forEach((sphere, index) => {
+          sphere.material.color.setHSL(
+            frequencyData[index % frequencyData.length] / 256,
+            1,
+            0.5
+          );
+        });
+      }
+
+      // Animation
+      function animate() {
+        requestAnimationFrame(animate);
+        analyser.getByteFrequencyData(frequencyData);
+        let bassFrequency = getBassFrequency(frequencyData);
+        let midFrequency = getMidFrequency(frequencyData);
+        let highFrequency = getHighFrequency(frequencyData);
+        animateBass(spheres, bassFrequency);
+        animateColor(spheres, frequencyData);
+        // animateMid(spheres, midFrequency);
+        // animateHigh(spheres, highFrequency);
+        renderer.render(scene, camera);
+      }
+
+      // Démarrage de l'animation
+      audio.play();
+      animate();
+
+      // Ajustement de la taille du canvas
+      window.addEventListener("resize", () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+    </script>
+  </body>
+</html>
