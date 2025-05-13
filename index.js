@@ -1,4 +1,4 @@
-api_url = "https://2910-2001-861-3201-d840-88e9-93d-abbd-a3bc.ngrok-free.app";
+api_url = "https://7a3e-2001-861-3201-d840-8584-d007-dc28-d3d5.ngrok-free.app";
 
 const routes = {
   call: api_url + "fight/call",
